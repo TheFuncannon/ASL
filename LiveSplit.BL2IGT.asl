@@ -1,30 +1,53 @@
 state("Borderlands2")
 {
-	bool isLoading11 : "Borderlands2.exe", 0x15EEE40;
-	byte isOnTitle11: "Borderlands2.exe", 0x14F10E0;
-	bool isLocked11: "Borderlands2.exe", 0x15F85E8;
-	
-	byte versionCheck : "Borderlands2.exe", 0x15EEE48;
-	
-	bool isLoading183 : "Borderlands2.exe", 0x1ED51D0;
-	bool isOnTitle183: "Borderlands2.exe", 0x1DD5137;
-	bool isLocked183: "Borderlands2.exe", 0x1EDEA64;
+	bool onLoadScreen: 0x1ED51D0;
+	bool isOnTitle:	0x1DD5137;
+	bool isLocked: 0x1EDEA64;
+}
+
+state("Borderlands2", "1.1")
+{
+	bool onLoadScreen: 0x15EEE40;
+	byte isOnTitle: 0x14F10E0;
+	bool isLocked: 0x15F85E8;
+}
+
+init
+{
+	vars.doStart = false;
+	vars.isLoading = false;
+	switch (modules.First().FileVersionInfo.FileVersion)	
+	{
+		case "1.0.9.15588":
+			version = "1.1";
+			break;
+		case "1.0.9.670948":
+			version = "1.1";
+			break;
+	}
+}
+
+update
+{
+	print(modules.First().FileVersionInfo.FileVersion);
+	vars.doStart = false;
+	vars.isLoading = false;
+	if (old.isLocked && !current.isLocked)
+	{
+		vars.doStart = true;
+	}
+	if (current.onLoadScreen || Convert.ToBoolean(current.isOnTitle))
+	{
+		vars.isLoading = true;
+	}
 }
 
 start
 {
-	return (current.versionCheck != 0x18 ? (old.isLocked183 && !current.isLocked183) : (old.isLocked11 && !current.isLocked11));
-}
-
-split
-{
+	return vars.doStart;
 }
 
 isLoading
 {
-	return (current.versionCheck != 0x18 ? current.isLoading183 || current.isOnTitle183 : current.isLoading11 || (current.isOnTitle11 != 0));
-}
-
-gameTime
-{
+	return vars.isLoading;
 }
