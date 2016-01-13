@@ -1,12 +1,10 @@
 state("Psychonauts")
 {
-	bool startedLoading : "Psychonauts.exe", 0x00338D88, 0x9900;
-	byte finishedLoading : "Psychonauts.exe", 0x00338D88, 0x9A30;
+	bool isLoading : "Psychonauts.exe", 0x38C7F4;
 }
 
 start
 {
-	bool isLoading = false;
 }
 
 split
@@ -15,10 +13,6 @@ split
 
 isLoading
 {
-	if (current.finishedLoading == 0x03)
-		current.isLoading = false;
-	if (current.startedLoading)
-		current.isLoading = true;
 	return current.isLoading;
 }
 
