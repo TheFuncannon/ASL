@@ -2,12 +2,10 @@ state("sonic2app")
 {
 	bool isLoading : "sonic2app.exe", 0x16557E4;
 	bool runStart : "sonic2app.exe", 0x134AFFA;
-	bool levelEnd : "sonic2app.exe", 0x134B002;
+	bool controlActive : "sonic2app.exe", 0x134AFFE;
 	bool timerEnd : "sonic2app.exe", 0x134AFDA;
+	bool levelEnd : "sonic2app.exe", 0x134B002;
 	byte map : "sonic2app.exe", 0x1534B70;
-	byte minutes : "sonic2app.exe", 0x134AFDB;
-	byte seconds : "sonic2app.exe", 0x134AFDC;
-	byte centiseconds : "sonic2app.exe", 0x134AFDD;
 }
 
 start
@@ -21,13 +19,9 @@ reset
 
 split
 {
-	if (current.map == 42 && (current.seconds >= 15))
+	if (current.map == 19 || current.map == 20 || current.map == 29 || current.map == 33 || current.map == 42 || current.map == 70) && current.controlActive
 	{
-		return current.timerEnd && !old.timerEnd;
-	}
-	if (current.map == 70 && (current.minutes >= 2))
-	{
-		return current.timerEnd && !old.timerEnd;
+		return current.timerEnd && old.timerEnd;
 	}
 	return current.levelEnd && !old.levelEnd;
 }
