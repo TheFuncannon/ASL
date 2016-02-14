@@ -19,27 +19,7 @@ reset
 
 split
 {
-	if current.map == 19 && current.controlActive
-	{
-		return current.timerEnd && old.timerEnd;
-	}
-	if current.map == 20 && current.controlActive
-	{
-		return current.timerEnd && old.timerEnd;
-	}
-	if current.map == 29 && current.controlActive
-	{
-		return current.timerEnd && old.timerEnd;
-	}
-	if current.map == 33 && current.controlActive
-	{
-		return current.timerEnd && old.timerEnd;
-	}
-	if current.map == 42 && current.controlActive
-	{
-		return current.timerEnd && old.timerEnd;
-	}
-	if current.map == 70 && current.controlActive
+	if (current.map == 19 || current.map == 20 || current.map == 29 || current.map == 33 || current.map == 42 || current.map == 70) && current.controlActive
 	{
 		return current.timerEnd && old.timerEnd;
 	}
