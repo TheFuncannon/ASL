@@ -33,6 +33,14 @@ state("Borderlands2", "1.8.4")
 	bool isLocked: 0x1EF8B00;
 }
 
+state("Borderlands2", "1.8.5")
+{
+	bool onLoadScreen: 0x164CE70;
+	bool isOnTitle: 0x166BEE8;
+	bool isLocked: 0x165CFFC;
+}
+
+
 init
 {
 	vars.doStart = false;
@@ -57,6 +65,10 @@ init
 		case "1.0.38.1055911":
 			version = "1.8.4";
 			break;
+		case "1.0.228.1890495":
+			version = "1.8.5";
+			break;
+
 	}
 }
 
@@ -84,3 +96,4 @@ isLoading
 {
 	return vars.isLoading;
 }
+
